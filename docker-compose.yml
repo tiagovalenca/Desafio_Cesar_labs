@@ -1,0 +1,19 @@
+version: "3.3"
+
+services:
+
+  flask-desafio:
+    build: ./flask
+    container_name: flask
+    restart: always
+    environment:
+      - APP_NAME=Desafio_Cesar_Labs
+    expose:
+      - 8080
+
+  nginx-desafio:
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"

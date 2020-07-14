@@ -1,0 +1,187 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Tiago-Valenca-Desafio-Cesar-Labs",
+    "description": "Desafio do Cesar Labs para fazer uma API utilizando Flask.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "tlv@cesar.school"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "127.0.0.1",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/get": {
+      "get": {
+        "summary": "Returns a list of shoes or a single shoe",
+        "description": "Can either receive no parameter in the request, and return the first 10 shoes in the database or receive an id in the body and return the shoe of that id.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 5
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/get/{id}": {
+      "get": {
+        "summary": "Returns a shoe by ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "minimum": 1,
+            "description": "The unique id for the shoe in the database."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/post": {
+      "post": {
+        "summary": "Creates a shoe in the database.",
+        "description": "Receives a shoe object and creates it in the database",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Product",
+            "required": true,
+            "description": "the shoe to create",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/put": {
+      "put": {
+        "summary": "Updates a shoe in the database.",
+        "description": "Receives a shoe object and updates it in the database",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Product",
+            "required": true,
+            "description": "the shoe to create",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/delete": {
+      "get": {
+        "summary": "Deletes a shoe from database by ID",
+        "description": "deletes a shoe from database receiving the id in the body",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "id",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 5
+            }
+          }
+        ],
+        "produces": [
+          "string"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/delete/{id}": {
+      "get": {
+        "summary": "Deletes a shoe from database by ID.",
+        "description": "deletes a shoe from database receiving the id in the path",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "minimum": 1,
+            "description": "The unique id for the shoe in the database."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "brand": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "price_on_sale": {
+          "type": "number"
+        },
+        "full_price": {
+          "type": "number"
+        }
+      },
+      "xml": {
+        "name": "Product"
+      }
+    }
+  }
+}
