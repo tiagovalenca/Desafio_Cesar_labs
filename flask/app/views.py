@@ -6,6 +6,12 @@ from .model.error_handler import InvalidUsage
 from flask.views import MethodView
 import os
 
+@app.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
 # Mapeamento pra home page.
 @app.route("/")
 def index():
@@ -26,7 +32,10 @@ class ProductView(MethodView):
     # Faz: verifica se o request recebido foi um get
     # Retorna: o resultado da função read do productbl
     def get(self, id=None):
-        if request.method != 'GET':
+        try:
+            if request.method != 'GET':
+                raise Exception
+        except:
             raise InvalidUsage('Method is not Get', status_code=400)
         
         if request.form.get('id') is not None:
@@ -44,8 +53,12 @@ class ProductView(MethodView):
     #       productbl
     # Retorna: o resultado da função create do productbl
     def post(self):
-        if request.method != 'POST':
-            raise InvalidUsage('Method is not Post', status_code=400)
+        try:
+            if request.method != 'POST':
+                raise Exception
+        except:
+            raise InvalidUsage('Method is not POST', status_code=400)
+
         bl = ProductBL()
         return bl.create(request)
  
@@ -55,8 +68,12 @@ class ProductView(MethodView):
     #       ProductBL
     # Retorna: o resultado da função update do productbl
     def put(self):
-        if request.method != 'PUT':
-            raise InvalidUsage('Method is not Put', status_code=400)
+        try:
+            if request.method != 'PUT':
+                raise Exception
+        except:
+            raise InvalidUsage('Method is not PUT', status_code=400)
+
         bl = ProductBL()
         return bl.update(request)
  
@@ -66,7 +83,10 @@ class ProductView(MethodView):
     #       ProductBL
     # Retorna: o resultado da função delete do productbl
     def delete(self,id=None):
-        if request.method != 'DELETE':
+        try:
+            if request.method != 'DELETE':
+                raise Exception
+        except:
             raise InvalidUsage('Method is not Delete', status_code=400)
 
         if request.form.get('id') is not None:

@@ -12,28 +12,46 @@ class ProductBL:
     #      produto com as variáveis recebidas e passa ele pra função create do produto
     # Retorna: o resultado da função create de produto
     def create(self, request):
-        if request.form.get('brand') is None:
+        try:
+            brand = request.form.get('brand')
+        except Exception:
             raise InvalidUsage("There must be a Brand", status_code=410)
-        brand = request.form.get('brand')
-
-        if request.form.get('name') is None:
+        
+        try:
+            name = request.form.get('name')
+        except Exception:
             raise InvalidUsage("There must be a Name", status_code=410)
-        name = request.form.get('name')
-
-        if isinstance(brand, str) is False:
+        
+        try:            
+            if isinstance(brand, str) is False: 
+                raise Exception
+        except Exception:
             raise InvalidUsage("Brand is not str", status_code=410)
-        if isinstance(name, str) is False:
+
+        try:            
+            if isinstance(name, str) is False: 
+                raise Exception
+        except Exception:
             raise InvalidUsage("Name is not str", status_code=410)
 
-        if request.form.get('price_on_sale') is None:
+        
+        try:
+            if request.form.get('price_on_sale') is None:
+                raise Exception
+        except Exception:   
             raise InvalidUsage("There must be a price_on_sale", status_code=410)   
+        
         try:
             price_on_sale = float(request.form.get('price_on_sale'))
         except ValueError:
             raise InvalidUsage("Price_on_sale is not a float", status_code=410)
         
-        if request.form.get('full_price') is None:
-            raise InvalidUsage("There must be a full_price", status_code=410)  
+        try:
+            if request.form.get('full_price') is None:
+                raise Exception 
+        except Exception:   
+            raise InvalidUsage("There must be a full_price", status_code=410)   
+
         try:
             full_price = float(request.form.get('full_price'))
         except ValueError:
@@ -51,8 +69,12 @@ class ProductBL:
         if not id:
             return Product.readTen()
         else:
-            if isinstance(id, int) is False:
+            try:
+                if isinstance(id, int) is False:
+                    raise Exception
+            except Exception:
                 raise InvalidUsage("id is not int", status_code=410)
+            
             return Product.read(id)
 
     
@@ -62,8 +84,11 @@ class ProductBL:
     # Retorna: O resultado da função update de Product
     def update(self,request):
 
-        if request.form.get('id') is None:
-             raise InvalidUsage("Request has to have an id", status_code=410)
+        try:
+            if request.form.get('id') is None:
+                raise Exception
+        except Exception:
+            raise InvalidUsage("Request has to have an id", status_code=410)
         
         brand = None
         name = None
@@ -76,13 +101,19 @@ class ProductBL:
             raise InvalidUsage("id is not int", status_code=410)
 
         if request.form.get('brand') is not None:
-            brand = request.form.get('brand')
-            if isinstance(brand, str)is False:
+            try:
+                brand = request.form.get('brand')
+                if isinstance(brand, str)is False:
+                    raise Exception
+            except Exception:
                 raise InvalidUsage("Brand is not str", status_code=410)
 
         if request.form.get('name') is not None:
-            name = request.form.get('name')
-            if isinstance(name, str)is False:
+            try:
+                name = request.form.get('name')
+                if isinstance(name, str)is False:
+                    raise Exception
+            except Exception:
                 raise InvalidUsage("name is not str", status_code=410)
 
         if request.form.get('price_on_sale') is not None:
@@ -105,7 +136,10 @@ class ProductBL:
     # Faz: verifica se recebeu o id corretamente
     # Retorna: O resultado da função delete de Product
     def delete(self, id=None):
-        if not id:
+        try:
+            if not id:
+                raise Exception
+        except Exception:
             raise InvalidUsage("Request has to have an id", status_code=410)
 
         return Product.delete(id)
